@@ -1,0 +1,19 @@
+class Solution:
+    def selfDividingNumbers(self, left: int, right: int) -> List[int]:
+        def selfDiv(digits):
+            digits=str(digits)
+            if str(0) in digits:
+                return False
+            else:
+                for digit in digits:
+                    if int(digits)%int(digit)!=0:
+                        return False
+                return True
+
+        op=[]
+        for i in range(left,right+1):
+            if selfDiv(i):
+                op.append(i)
+        return op
+        
+    
