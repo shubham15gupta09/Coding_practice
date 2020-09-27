@@ -1,71 +1,109 @@
-class LinkedList 
-{ 
-	Node head; 
-	class Node 
-	{ 
-		int data; 
-		Node next; 
-		Node(int d){
+public class LinkedList {
+    Node head;
+
+    static class Node {
+        int data;
+        Node next;
+
+        Node(int d) {
             data = d;
             next = null;
-        } 
-	} 
-	public void push(int new_data) 
-	{ 
-		Node new_node = new Node(new_data); 
-		new_node.next = head; 
-		head = new_node; 
-	} 
-	public void insertAfter(Node prev_node, int new_data) 
-	{ 
-		if (prev_node == null) 
-		{ 
-			System.out.println("The given previous node cannot be null"); 
-			return; 
-		} 
-		Node new_node = new Node(new_data); 
-		new_node.next = prev_node.next; 
-		prev_node.next = new_node; 
-	} 
-	public void append(int new_data) 
-	{ 
-        Node new_node = new Node(new_data); 
-        if (head == null) 
-		{ 
-			head = new Node(new_data); 
-			return; 
-		} 
-        new_node.next = null; 
-		Node last = head; 
-		while (last.next != null) 
-            last = last.next; 
-            last.next = new_node; 
-		return; 
-	} 
-	public void printList() 
-	{ 
-		Node tnode = head; 
-		while (tnode != null) 
-		{ 
-			System.out.print(tnode.data+" "); 
-			tnode = tnode.next; 
-		} 
-	} 
-	public static void main(String[] args) 
-	{ 
-		LinkedList llist = new LinkedList(); 
+        }
+    }
 
-		// Insert 6. So linked list becomes 6->NUllist 
-		llist.append(6); 
-		// 7->6->NUllist 
-		llist.push(7); 
-		// 1->7->6->NUllist 
-		llist.push(1); 
-		// 1->7->6->4->NUllist 
-		llist.append(4); 
-		// 1->7->8->6->4->NUllist 
-		llist.insertAfter(llist.head.next, 8); 
-		System.out.println("\nCreated Linked list is: "); 
-		llist.printList(); 
-	} 
-} 
+    public static LinkedList insert(LinkedList list, int data) {
+        Node new_node = new Node(data);
+        new_node.next = null;
+        if (list.head == null) {
+            list.head = new_node;
+        } else {
+            Node last = list.head;
+            while (last.next != null) {
+                last = last.next;
+            }
+            last.next = new_node;
+        }
+        return list;
+    }
+
+    public static void printList(LinkedList list) {
+        Node currNode = list.head;
+        System.out.print("\nLinkedList: ");
+        while (currNode != null) {
+            System.out.print(currNode.data + " ");
+            currNode = currNode.next;
+        }
+        System.out.println("\n");
+    }
+
+    public static LinkedList deleteByKey(LinkedList list, int key) {
+        Node currNode = list.head, prev = null;
+        if (currNode != null && currNode.data == key) {
+            list.head = currNode.next;
+            System.out.println(key + " found and deleted");
+            return list;
+        }
+        while (currNode != null && currNode.data != key) {
+            prev = currNode;
+            currNode = currNode.next;
+        }
+        if (currNode != null) {
+            prev.next = currNode.next;
+            System.out.println(key + " found and deleted");
+        }
+        if (currNode == null) {
+            System.out.println(key + " not found");
+        }
+        return list;
+    }
+
+    public static LinkedList deleteAtPosition(LinkedList list, int index) {
+        Node currNode = list.head, prev = null;
+        if (index == 0 && currNode != null) {
+            list.head = currNode.next;
+            System.out.println(index + " position element deleted");
+            return list;
+        }
+        int counter = 0;
+        while (currNode != null) {
+            if (counter == index) {
+                prev.next = currNode.next;
+                System.out.println(index + " position element deleted");
+                break;
+            } else {
+                prev = currNode;
+                currNode = currNode.next;
+                counter++;
+            }
+        }
+        if (currNode == null) {
+            System.out.println(index + " position element not found");
+        }
+        return list;
+    }
+
+    public static void main(String[] args) {
+        LinkedList list = new LinkedList();
+        list = insert(list, 1);
+        list = insert(list, 2);
+        list = insert(list, 3);
+        list = insert(list, 4);
+        list = insert(list, 5);
+        list = insert(list, 6);
+        list = insert(list, 7);
+        list = insert(list, 8);
+        printList(list);
+        deleteByKey(list, 1);
+        printList(list);
+        deleteByKey(list, 4);
+        printList(list);
+        deleteByKey(list, 10);
+        printList(list);
+        deleteAtPosition(list, 0);
+        printList(list);
+        deleteAtPosition(list, 2);
+        printList(list);
+        deleteAtPosition(list, 10);
+        printList(list);
+    }
+}

@@ -1,0 +1,5 @@
+		a
+	b			c
+d		e	f		g	
+
+postorder : d e b f g c a
